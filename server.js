@@ -1,14 +1,9 @@
 const { createServer } = require('http')
 const { parse } = require('url')
 const next = require('next')
-const fs = require("fs");
 const dev = process.env.dev !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
-const httpsOptions = {
-    key: fs.readFileSync("./server.key"),
-    cert: fs.readFileSync("./server.cert"),
-};
 
 const port = process.env.port || 3000
 app.prepare().then(() => {
