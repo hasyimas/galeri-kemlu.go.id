@@ -5,17 +5,14 @@ const YearsComponent = (props) => {
     let returnListYears = '';
 
     function toggleYear(year) {
-        const path = props.router.slug
+        var path = props.router.slug
         const query = props.router.query
         props.setStateYear(!props.stateYear)
         query.year = year
         if (year === props.queryYear && props.stateYear === true) {
             query.year = ''
         }
-        props.router.push({
-            pathname: path,
-            query: query,
-        })
+        props.router.push({ pathname: path, query: query })
     }
 
     returnListYears = listYears.map((map, i) => {

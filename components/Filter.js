@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Filter = (props) => {
+
     return (
         <>
             <div className="mx-2 lg:mx-4 flex justify-between ">

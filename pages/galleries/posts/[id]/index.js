@@ -1,20 +1,20 @@
-import Search from '../../../components/Search'
-import { server } from '../../../config'
-import { saveAs } from "file-saver";
-import Meta from '../../../components/Meta';
 import { useContext } from 'react';
-import Modal from "../../../components/Login";
-import sessionContext from '../../../context/sessionContext';
-import http from "../../../config/http-common"
+import { saveAs } from "file-saver";
+import Search from '../../../../components/Search'
+import { server } from '../../../../config'
+import Meta from '../../../../components/Meta';
+import Modal from "../../../../components/Login";
+import sessionContext from '../../../../context/sessionContext';
+import http from "../../../../config/http-common"
 
 const Galleries = (props) => {
-    const { show, setShow, token, q, setQ, docTypes, setDocTypes, handleFilter } = useContext(sessionContext)
+    const { show, setShow, token, q, setQ, docTypes, setDocTypes, router, handleFilter } = useContext(sessionContext)
     let keywords = '';
     keywords = props.gallery.keywords.map((map, key) => {
         if (key < 3) {
             return (
                 <div key={key}>
-                    <a href={`/galleries?keyword=${map}&year=&docType=&page=1`} as={`/galleries?keyword=${map}&year=&docType=&page=1`} className="cursor-pointer text-blue-500 hover:text-blue-900"
+                    <a href={`/galleries/${props.gallery.fileType}/1?q=${map}`} as={`/galleries/${props.gallery.fileType}/1?q=${map}`} className="cursor-pointer text-blue-500 hover:text-blue-900"
                     >{map}</a> |&nbsp;
                 </div>)
         }

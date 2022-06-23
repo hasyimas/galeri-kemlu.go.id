@@ -9,6 +9,7 @@ import Filter from "../../components/Filter"
 import sessionContext from "../../context/sessionContext";
 import YearsComponent from "../../components/YearsComponent.js";
 import http from "../../config/http-common"
+import { CompactSign } from "jose";
 function Galleries({ galleriesData, queryYear, querykeyword, queryDocType }) {
     const { q, setQ, years, setYears, docTypes, setDocTypes,
         stateDoctype, setStateDoctype, stateYear, setStateYear, router, handleFilter } = useContext(sessionContext)
@@ -22,9 +23,16 @@ function Galleries({ galleriesData, queryYear, querykeyword, queryDocType }) {
     const handlePagination = (page) => {
         const path = router.pathname
         const slugs = router.query.slug || []
+        const query = router.query || ''
         slugs[1] = page.selected + 1
-        console.log(page.selected)
-        console.log(slugs.join("/"))
+        if (query.q !== '' || query.q !== undefined) {
+            setQ(query.q)
+        }
+
+        router.push({
+            pathname: path,
+            query: query,
+        })
 
     }
 
@@ -66,7 +74,7 @@ function Galleries({ galleriesData, queryYear, querykeyword, queryDocType }) {
                 <>
                     <div className="grid grid-cols-1 gap-2 lg:grid-cols-4 lg:gap-6 px-4">
                         {galleries.map(d => {
-                            return <Link key={d.id} href="/galleries/[id]" as={`/galleries/${d.id}`}>
+                            return <Link key={d.id} href="/galleries/posts/[id]" as={`/galleries/posts/${d.id}`}>
                                 <a href={`/galleries/${d.id}`} className="group cursor-pointer  before:content-[''] before:block relative flex items-center justify-center p-24 overflow-hidden shadow-xl w-full h-full ">
                                     <ComponentFile d={d} />
                                     <div className="absolute text-xs p-3 bottom-0 left-0 font-light transition-all duration-500 ease-in-out transform  text-gray-50 opacity-0 group-hover:opacity-100">
@@ -113,7 +121,7 @@ function Galleries({ galleriesData, queryYear, querykeyword, queryDocType }) {
                         breakLabel={"..."}
                         initialPage={galleriesData.curPage - 1}
                         pageCount={galleriesData.maxPage}
-                        onPageChange={handleFilter}
+                        onPageChange={handlePagination}
                         containerClassName={'flex justify-center px-6 my-4 rounded list-none flex-wrap'}
                         subContainerClassName={'pages pagination'}
                         pageClassName={"cursor-pointer first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-cyan-800 bg-white text-cyan-800"}
@@ -134,8 +142,8 @@ export const getServerSideProps = async ({ query }) => {
     const slugs = query.slug || []
     const docType = slugs[0] || ''
     const page = slugs[1] || 1
-    const keyword = slugs[2] || ''
-    const year = slugs[3] || ''
+    const keyword = query.q || ''
+    const year = query.year || ''
 
     let keywords = ''
     if (keyword != '') {

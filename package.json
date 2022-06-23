@@ -18,6 +18,8 @@
     "cors": "^2.8.5",
     "file-saver": "^2.0.5",
     "https": "^1.0.0",
+    "jose": "^4.8.1",
+    "js-cookie": "^3.0.1",
     "ldap-authentication": "^2.2.9",
     "ldapjs": "^2.3.1",
     "next": "^12.1.0",

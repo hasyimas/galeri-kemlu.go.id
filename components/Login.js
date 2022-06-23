@@ -4,7 +4,8 @@ import Alert from "./Alert"
 import sessionContext from "../context/sessionContext";
 import axios from 'axios';
 import Link from 'next/link';
-import { ldap } from "../config";
+import { server } from "../config";
+import Cookies from "js-cookie";
 
 const Login = (props) => {
     const [username, setUsername] = useState('')
@@ -13,35 +14,37 @@ const Login = (props) => {
     const [alert, setAlert] = useState(false)
     const [showAlert, setShowAlert] = useState(false)
     const [setuju, setSetuju] = useState(false)
-    const { setToken, setUsernameData } = useContext(sessionContext)
+    const { setToken, setUsernameData, router } = useContext(sessionContext)
     if (!props.show) {
         return null
     }
     const auth = async () => {
 
-
-        await axios.post(`${ldap}/api/login`,
+        await axios.post(`${server}/api/auth`,
             { 'username': username, 'password': password })
-            .then(res => {
+            .then(async res => {
 
                 if (!setuju) {
                     setAlert(true)
                     setMessage("You must agree")
                     setShowAlert(true)
-                } else {
-                    localStorage.setItem('token', res.data.token);
-                    localStorage.setItem('username', res.data.username);
-                    setToken(res.data.token)
-                    setUsernameData(res.data.username)
-                    setShowAlert(false)
-                    props.setShow(false)
+                    return
                 }
+                const tokens = res.data.token
+                Cookies.set('token', tokens)
+
+                // localStorage.setItem('token', res.data.token);
+                // localStorage.setItem('username', res.data.username);
+                // setToken(res.data.token)
+                // setUsernameData(res.data.username)
+                // setShowAlert(false)
+                props.setShow(false)
+                router.reload()
 
 
             })
             .catch(function (error) {
                 setAlert(true)
-
                 setMessage("Authentication Failed !")
                 setShowAlert(true)
             });
@@ -65,8 +68,8 @@ const Login = (props) => {
                 <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white  rounded text-sm border-2 shadow outline-none focus:outline-none focus:ring w-full" />
             </div>
             <div class="form-check mb-3 pt-0 flex">
-                <input value={setuju} onChange={(e) => setSetuju(e.target.checked)} type="checkbox"  id="setuju" 
-                className="flex-none appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" />
+                <input value={setuju} onChange={(e) => setSetuju(e.target.checked)} type="checkbox" id="setuju"
+                    className="flex-none appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" />
                 <label className="flex-1 inline-block text-gray-800 text-xs text-justify" for="flexCheckDefault">
                     Seluruh file dokumentasi pada website Rumah Arsip Digital merupakan properti kepemilikan Kementerian Luar Negeri RI dan dapat
                     digunakan untuk keperluan non-komersial berkaitan dengan tujuan dan misi lingkup diplomasi Indonesia. Dengan mengklik checkbox

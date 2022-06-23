@@ -5,8 +5,9 @@ import Link from 'next/link';
 import Modal from "./Login";
 import { server } from '../config'
 import sessionContext from "../context/sessionContext";
+import Cookies from "js-cookie";
 
-function Navbar(props) {
+function Navbar() {
 
   const { show, setShow, token, setToken, usernameData, setUsernameData,
     q, setQ, years, setYears, docTypes, setDocTypes, stateDoctype, setStateDoctype, stateYear, setStateYear,
@@ -31,8 +32,6 @@ function Navbar(props) {
   const closeDropdownPopover2 = () => {
     setDropdownPopoverShow2(false);
   };
-
-
   const logout = async (e) => {
     e.preventDefault()
     const requestOptions = {
@@ -46,10 +45,13 @@ function Navbar(props) {
     const res = await fetch(`${server}/api/auth/logout`, requestOptions)
     const auth = await res.json()
     if (res.status == 200) {
-      localStorage.removeItem('token')
-      localStorage.removeItem('username')
-      setToken('')
-      setUsernameData('')
+      Cookies.remove('token')
+      Cookies.remove('name')
+      router.reload()
+      // localStorage.removeItem('token')
+      // localStorage.removeItem('username')
+      // setToken('')
+      // setUsernameData('')
       dropdownPopoverShow2 ? closeDropdownPopover2() : openDropdownPopover2();
     }
   }
@@ -59,10 +61,9 @@ function Navbar(props) {
     dropdownPopoverShow ? closeDropdownPopover() : openDropdownPopover();
 
     const slugs = router.query.slug;
-    slugs = { 'docType': docType, 'page': 1 }
-    setDocTypes(docType)
+    slugs = [docType, 1]
     router.push({
-      pathname: `/galleries/${slugs.docType}/${slugs.page}`,
+      pathname: `/galleries/${slugs.join('/')}/`,
     })
   };
 
@@ -160,7 +161,7 @@ function Navbar(props) {
               <li className={(token != '' ? 'block' : 'hidden') + " nav-item"}>
                 <button ref={btnDropdownRef2} onClick={() => { dropdownPopoverShow2 ? closeDropdownPopover2() : openDropdownPopover2(); }}
                   className="relative pl-3 pr-4 py-2 flex items-center justify-center text-xs uppercase font-bold leading-snug text-black hover:opacity-75 cursor-pointer" >
-                  <span className="mr-0">{`Hallo ${usernameData}`}</span>
+                  <span className="mr-0">{`Hallo ${Cookies.get('name')}`}</span>
                   <span className="absolute right-0 " >
                     <FontAwesomeIcon className={(dropdownPopoverShow2 ? "hidden" : "block h-5 ")} icon={['fas', 'caret-down']} />
                     <FontAwesomeIcon className={(dropdownPopoverShow2 ? "block h-5" : "hidden")} icon={['fas', 'caret-up']} />
