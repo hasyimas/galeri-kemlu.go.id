@@ -15,10 +15,11 @@ const Galleries = (props) => {
     keywords = props.gallery.keywords.map((map, key) => {
         if (key < 3) {
             return (
-                <div key={key}>
+                <li key={key}>
                     <a href={`/galleries/${props.gallery.fileType}/1?q=${map}`} as={`/galleries/${props.gallery.fileType}/1?q=${map}`} className="cursor-pointer text-blue-500 hover:text-blue-900"
-                    >{map}</a> |&nbsp;
-                </div>)
+                    >{map}</a>
+                </li>
+            )
         }
     })
 
@@ -49,7 +50,7 @@ const Galleries = (props) => {
                 Download Now
             </button>);
         } else if (props.gallery.fileType == 'audio') {
-            return (<button 
+            return (<button
                 // disabled={(token ? false : true)}
                 onClick={() => {
                     if (token) {
@@ -58,13 +59,13 @@ const Galleries = (props) => {
                         setShowDialog(true)
                     }
                 }}
-               
+
                 className="disabled:opacity-60 opacity-100 bg-cyan-600 text-white hover:bg-cyan-500 font-bold uppercase text-sm px-6 py-3 my-4 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
                 data-modal-toggle="defaultModal">
                 Download Now
             </button>);
         } else if (props.gallery.fileType == 'video') {
-            return (<button 
+            return (<button
                 disabled={(token ? false : true)}
                 onClick={() => {
                     if (token) {
@@ -98,7 +99,7 @@ const Galleries = (props) => {
                         <div className="flex flex-col ">
                             <h1 className="text-lg font-semibold my-1">{props.gallery.title}</h1>
                             <h2 className="my-1">Tahun {props.gallery.year}</h2>
-                            <div className="my-1 flex">Tags : {keywords}</div>
+                            <div className="my-1 flex">Tags : 	&nbsp;<ul>{keywords}</ul></div>
                             <ComponentDownload props={props} />
                             <button onClick={() => setShow(true)} className={(token != '' ? 'hidden' : 'block') + " bg-white text-black hover:bg-cyan-600 hover:text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"} type="button"
                             >

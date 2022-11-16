@@ -4,9 +4,9 @@ function Footer() {
     <div className="w-full">
       <div className="w-full flex flex-col lg:flex-row bg-gray-200 lg:justify-between px-3 py-3 lg:px-2 lg:py-14" >
         <div className="flex flex-col text-center w-full items-center  lg:flex-row lg:text-left ">
-          <img src="/logo.png" alt="kemenlu" className="h-20 w-20 lg:h-28 lg:w-28 lg:mr-6" />
+          <img src="/logo-01.png" alt="kemenlu" className="h-20 w-20 lg:h-28 lg:w-28 lg:mr-6" />
           <div className="items-center">
-            <h1 className="uppercase text-base lg:text-xl font-semibold text-black">Kementerian Luar Negeri Republik Indonesia</h1>
+            <h1 className="uppercase text-base lg:text-xl font-semibold text-blue-700">Kementerian Luar Negeri <span className='text-red-700' >Republik Indonesia</span></h1>
             <p className="text-black text-sm lg:text-lg">
               Jl. Taman Pejambon No. 6 Jakarta Pusat <br></br>
               Telp. (62-21) 3849413, 3456014, 3441508 <br></br>

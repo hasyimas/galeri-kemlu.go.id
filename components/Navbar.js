@@ -76,12 +76,12 @@ function Navbar() {
             <a className="w-full flex items-center text-sm font-bold leading-relaxed mr-4 py-2 whitespace-nowrap uppercase text-white"
               href="/"
             >
-              <div className="w-12 h-12 mr-4">
-                <img src="/logo.png" alt="kemenlu" />
+              <div className="w-14 h-14 mr-4">
+                <img src="/logo-01.png" alt="kemenlu" />
               </div>
               <div className="uppercase">
-                <p className="font-semibold text-black hidden lg:block">Kementerian Luar Negeri <br></br>
-                  Republik Indonesia
+                <p className="font-semibold text-blue-700 hidden lg:block">Kementerian Luar Negeri <br></br>
+                  <span className="text-red-700">Republik Indonesia</span>
                 </p>
               </div>
             </a>

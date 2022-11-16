@@ -1,7 +1,7 @@
 import Router, { useRouter } from "next/router"
 const YearsComponent = (props) => {
 
-    let listYears = ['1980-1985', '1986-1990', '1991-1995', '1996-2000', '2001-2005', '2006-2010', '2011-2015', '2016-2021'];
+    let listYears = ['1945-1995', '1996-2000', '2001-2005', '2006-2010', '2011-2015', '2016-2018', '2019-2020', '2021-2022'];
     let returnListYears = '';
 
     function toggleYear(year) {
