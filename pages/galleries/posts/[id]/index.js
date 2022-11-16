@@ -4,11 +4,13 @@ import Search from '../../../../components/Search'
 import { server } from '../../../../config'
 import Meta from '../../../../components/Meta';
 import Modal from "../../../../components/Login";
+import AlertDownload from "../../../../components/AlertDownload";
 import sessionContext from '../../../../context/sessionContext';
 import http from "../../../../config/http-common"
 
 const Galleries = (props) => {
-    const { show, setShow, token, q, setQ, docTypes, setDocTypes, router, handleFilter } = useContext(sessionContext)
+    const { show, setShow, showDialog, setShowDialog, token, q, setQ, docTypes, setDocTypes, router, handleFilter } = useContext(sessionContext)
+
     let keywords = '';
     keywords = props.gallery.keywords.map((map, key) => {
         if (key < 3) {
@@ -30,25 +32,49 @@ const Galleries = (props) => {
         }
     }
     const ComponentDownload = ({ props }) => {
+
         if (props.gallery.fileType == 'image') {
-            return (<button disabled={(token ? false : true)}
-                onClick={() => downloadFile((token ? `${server + '/uploads/origin/' + props.gallery.sourceFile}` : ''))}
+            return (<button
+
+                // disabled={(token ? false : true)}
+                onClick={() => {
+                    if (token) {
+                        downloadFile((token ? `${server + '/uploads/origin/' + props.gallery.sourceFile}` : ''))
+                    } else {
+                        setShowDialog(true)
+                    }
+                }}
                 className="disabled:opacity-60 opacity-100 bg-cyan-600 text-white hover:bg-cyan-500 font-bold uppercase text-sm px-6 py-3 my-4 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
-            >
+                data-modal-toggle="defaultModal" >
                 Download Now
             </button>);
         } else if (props.gallery.fileType == 'audio') {
-            return (<button disabled={(token ? false : true)}
-                onClick={() => downloadFile((token ? `${server + '/uploads/audio/' + props.gallery.sourceFile}` : ''))}
+            return (<button 
+                // disabled={(token ? false : true)}
+                onClick={() => {
+                    if (token) {
+                        downloadFile((token ? `${server + '/uploads/audio/' + props.gallery.sourceFile}` : ''))
+                    } else {
+                        setShowDialog(true)
+                    }
+                }}
+               
                 className="disabled:opacity-60 opacity-100 bg-cyan-600 text-white hover:bg-cyan-500 font-bold uppercase text-sm px-6 py-3 my-4 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
-            >
+                data-modal-toggle="defaultModal">
                 Download Now
             </button>);
         } else if (props.gallery.fileType == 'video') {
-            return (<button disabled={(token ? false : true)}
-                onClick={() => downloadFile((token ? `${server + '/uploads/videos/' + props.gallery.sourceFile}` : ''))}
+            return (<button 
+                disabled={(token ? false : true)}
+                onClick={() => {
+                    if (token) {
+                        downloadFile((token ? `${server + '/uploads/videos/' + props.gallery.sourceFile}` : ''))
+                    } else {
+                        setShowDialog(true)
+                    }
+                }}
                 className="disabled:opacity-60 opacity-100 bg-cyan-600 text-white hover:bg-cyan-500 font-bold uppercase text-sm px-6 py-3 my-4 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
-            >
+                data-modal-toggle="defaultModal" >
                 Download Now
             </button>);
         }
@@ -83,6 +109,7 @@ const Galleries = (props) => {
                     </div>
                 </div>
             </div>
+            <AlertDownload onClose={() => setShowDialog(false)} showDialog={showDialog} setShowDialog={setShowDialog} />
         </>
     )
 }
@@ -102,7 +129,7 @@ export const getServerSideProps = async (context) => {
 
 const downloadFile = async (url) => {
     var filename = url.split('/')
-    saveAs(url, filename[4]);
+    saveAs(url, filename[5]);
 };
 
 export default Galleries

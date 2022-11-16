@@ -2,10 +2,11 @@ const { createServer } = require('http')
 const { parse } = require('url')
 const next = require('next')
 const dev = process.env.dev !== 'production'
-const app = next({ dev })
+const hostname = 'localhost'
+const port = process.env.port || 3000
+const app = next({ dev, hostname, port })
 const handle = app.getRequestHandler()
 
-const port = process.env.port || 3000
 app.prepare().then(() => {
     createServer(async (req, res) => {
         // Be sure to pass `true` as the second argument to `url.parse`.

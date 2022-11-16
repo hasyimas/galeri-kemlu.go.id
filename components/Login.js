@@ -51,8 +51,8 @@ const Login = (props) => {
     }
 
 
-    return (<div className="fixed flex items-center justify-center bg-gray-700 left-0 right-0 top-0 bottom-0  z-40 bg-opacity-80 ">
-        <div className="bg-white px-4 py-4 w-1/3 rounded-lg ">
+    return (<div className="fixed flex items-center justify-center bg-gray-700 left-0 right-0 top-0 bottom-0 z-40 bg-opacity-80 ">
+        <div className="bg-white px-4 py-4 lg:w-1/3 rounded-lg ">
             <div className="flex justify-between">
                 <h1 className=" mb-3 text-2xl font-semibold">Login</h1>
                 <FontAwesomeIcon className="inline-block h-5 hover:cursor-pointer" icon={['fas', 'times']} onClick={props.onClose} />

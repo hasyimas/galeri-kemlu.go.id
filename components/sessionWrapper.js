@@ -8,6 +8,7 @@ function SessionWrapper({ children }) {
     const [token, setToken] = useState('')
     const [usernameData, setUsernameData] = useState('')
     const [show, setShow] = useState(false)
+    const [showDialog, setShowDialog] = useState(false)
     const router = useRouter()
     const [q, setQ] = useState(router.query.keyword || '');
     const [years, setYears] = useState(router.query.year || '')
@@ -29,7 +30,7 @@ function SessionWrapper({ children }) {
     }
 
     const valContext = {
-        show, setShow, token, setToken, usernameData, setUsernameData,
+        show, setShow,showDialog, setShowDialog, token, setToken, usernameData, setUsernameData,
         q, setQ, years, setYears, docTypes, setDocTypes, stateDoctype, setStateDoctype,
         stateYear, setStateYear, router, handleFilter
     }
