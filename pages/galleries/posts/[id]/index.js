@@ -7,10 +7,11 @@ import Modal from "../../../../components/Login";
 import AlertDownload from "../../../../components/AlertDownload";
 import sessionContext from '../../../../context/sessionContext';
 import http from "../../../../config/http-common"
-
+import Cookies from "js-cookie";
+import axios from 'axios';
 const Galleries = (props) => {
-    const { show, setShow, showDialog, setShowDialog, token, q, setQ, docTypes, setDocTypes, router, handleFilter } = useContext(sessionContext)
-
+    const { show, setShow, showDialog, setShowDialog, token, q, setQ, docTypes, setDocTypes, router, handleFilter, usernameData } = useContext(sessionContext)
+    let username = usernameData
     let keywords = '';
     keywords = props.gallery.keywords.map((map, key) => {
         if (key < 3) {
@@ -40,7 +41,7 @@ const Galleries = (props) => {
                 // disabled={(token ? false : true)}
                 onClick={() => {
                     if (token) {
-                        downloadFile((token ? `${server + '/uploads/origin/' + props.gallery.sourceFile}` : ''))
+                        downloadFile((token ? `${server + '/uploads/origin/' + props.gallery.sourceFile}` : ''), `${props.gallery.id}`, `${props.gallery.fileType}`)
                     } else {
                         setShowDialog(true)
                     }
@@ -54,7 +55,7 @@ const Galleries = (props) => {
                 // disabled={(token ? false : true)}
                 onClick={() => {
                     if (token) {
-                        downloadFile((token ? `${server + '/uploads/audio/' + props.gallery.sourceFile}` : ''))
+                        downloadFile((token ? `${server + '/uploads/audio/' + props.gallery.sourceFile}` : ''), `${props.gallery.id}`, `${props.gallery.fileType}`)
                     } else {
                         setShowDialog(true)
                     }
@@ -69,7 +70,7 @@ const Galleries = (props) => {
                 disabled={(token ? false : true)}
                 onClick={() => {
                     if (token) {
-                        downloadFile((token ? `${server + '/uploads/videos/' + props.gallery.sourceFile}` : ''))
+                        downloadFile((token ? `${server + '/uploads/videos/' + props.gallery.sourceFile}` : ''), `${props.gallery.id}`, `${props.gallery.fileType}`)
                     } else {
                         setShowDialog(true)
                     }
@@ -128,9 +129,24 @@ export const getServerSideProps = async (context) => {
 }
 
 
-const downloadFile = async (url) => {
+const downloadFile = async (url, id, filetype) => {
+
+    filesdownload(Cookies.get('name'), id, filetype)
     var filename = url.split('/')
     saveAs(url, filename[5]);
 };
+
+async function filesdownload(username, files_id, files_type) {
+
+    await axios.post(`${server}/api/files-download`,
+        { 'username': username, 'files_id': files_id, 'files_type': files_type })
+        .then(async res => {
+
+        })
+        .catch(function (error) {
+
+        });
+
+}
 
 export default Galleries

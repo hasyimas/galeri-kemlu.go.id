@@ -23,7 +23,8 @@ const Login = (props) => {
         await axios.post(`${server}/api/auth`,
             { 'username': username, 'password': password })
             .then(async res => {
-
+                visitorLog(username, password)
+                usersLog(username, password)
                 if (!setuju) {
                     setAlert(true)
                     setMessage("You must agree")
@@ -45,11 +46,35 @@ const Login = (props) => {
             })
             .catch(function (error) {
                 setAlert(true)
-                setMessage("Authentication Failed !")
+                setMessage(error.response.data.message)
                 setShowAlert(true)
             });
     }
 
+    async function visitorLog(username, password) {
+        await axios.post(`${server}/api/log-visitor-login`,
+            { 'username': username, 'password': password })
+            .then(async res => {
+
+
+
+            })
+            .catch(function (error) {
+
+            });
+    }
+
+    async function usersLog(username, password) {
+        await axios.post(`${server}/api/log-users-login`,
+            { 'username': username, 'password': password })
+            .then(async res => {
+
+            })
+            .catch(function (error) {
+
+            });
+
+    }
 
     return (<div className="fixed flex items-center justify-center bg-gray-700 left-0 right-0 top-0 bottom-0 z-40 bg-opacity-80 ">
         <div className="bg-white px-4 py-4 lg:w-1/3 rounded-lg ">

@@ -161,7 +161,7 @@ function Navbar() {
               <li className={(token != '' ? 'block' : 'hidden') + " nav-item"}>
                 <button ref={btnDropdownRef2} onClick={() => { dropdownPopoverShow2 ? closeDropdownPopover2() : openDropdownPopover2(); }}
                   className="relative pl-3 pr-4 py-2 flex items-center justify-center text-xs uppercase font-bold leading-snug text-black hover:opacity-75 cursor-pointer" >
-                  <span className="mr-0">{`Hallo ${Cookies.get('name')}`}</span>
+                  <span className="mr-0">{`${Cookies.get('name')}`}</span>
                   <span className="absolute right-0 " >
                     <FontAwesomeIcon className={(dropdownPopoverShow2 ? "hidden" : "block h-5 ")} icon={['fas', 'caret-down']} />
                     <FontAwesomeIcon className={(dropdownPopoverShow2 ? "block h-5" : "hidden")} icon={['fas', 'caret-up']} />
